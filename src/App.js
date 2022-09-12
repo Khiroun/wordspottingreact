@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import ImageInput from "./components/ImageInput";
+import ShowData from "./components/ShowData";
 
 function App() {
+  const [data, setData] = useState(null);
+  const [queryImage, setQueryImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header
+        style={{
+          height: "150px",
+        }}
+      >
+        <img
+          src="/logo.png"
+          alt=""
+          style={{
+            maxHeight: "100%",
+          }}
+        />
       </header>
+      <div>
+        {loading && <h2>Loading....</h2>}
+        {!loading && data && <ShowData data={data} queryImage={queryImage} />}
+        {!loading && !data && (
+          <ImageInput
+            setData={setData}
+            imageFile={queryImage}
+            setImageFile={setQueryImage}
+            setLoading={setLoading}
+          />
+        )}
+      </div>
     </div>
   );
 }
