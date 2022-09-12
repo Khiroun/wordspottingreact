@@ -6,6 +6,7 @@ const SingleResult = ({ point }) => {
   let [start, end] = wordLocation.split("-");
   [start, end] = [parseInt(start), parseInt(end)];
   const [wordOffset, setWordOffset] = useState("0");
+  const [wordWidth, setWordWidth] = useState("0");
   const lineImageURL = `https://firebasestorage.googleapis.com/v0/b/wordspotting-1b83d.appspot.com/o/line-images%2Fcsg562-${pageNumber}-${lineNumber}.png?alt=media`;
   useEffect(() => {
     const img = new Image();
@@ -13,9 +14,11 @@ const SingleResult = ({ point }) => {
     img.addEventListener("load", async () => {
       const lineImageWidth = img.width;
       const wo = (start / lineImageWidth) * 100;
-      if (start > lineImageWidth) setWordOffset(`${wo}%`);
+      setWordOffset(`${wo}%`);
+      const ww = ((end - start) / lineImageWidth) * 100;
+      setWordWidth(`${ww}%`);
     });
-  }, [lineImageURL, start]);
+  }, [lineImageURL, start, end]);
   if (_) {
   }
   return (
@@ -34,7 +37,7 @@ const SingleResult = ({ point }) => {
             position: "absolute",
             top: 0,
             bottom: 0,
-            width: "50px",
+            width: wordWidth,
             zIndex: 2,
             backgroundColor: "rgba(0, 255, 255, 0.5)",
             left: wordOffset,
